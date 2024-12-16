@@ -27,7 +27,8 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
 Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 Route::post('/shipping/generate', [ShippingController::class, 'generateShipment'])->name('shipping.generate');
-Route::post('/quote/generate', [ShippingController::class, 'quoteShipment'])->name('quote.generate');
+Route::post('/shipping/quote', [ShippingController::class, 'quoteShipment'])->name('shipping.quote');
+
 
 
 

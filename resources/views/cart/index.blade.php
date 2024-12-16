@@ -62,7 +62,7 @@
             <!-- Formulario para Datos de Envío -->
             <div class="bg-white rounded-lg shadow-md p-6 mb-4">
                 <h2 class="text-2xl font-bold mb-4">Datos de Envío</h2>
-                <form action="{{ route('quote.generate') }}" method="POST">
+                <form action="{{ route('shipping.quote') }}" method="POST">
                     @csrf
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <input type="text" name="name" value="francisco" placeholder="Nombre" class="p-2 border rounded"

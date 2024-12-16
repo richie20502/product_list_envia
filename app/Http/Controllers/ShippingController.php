@@ -11,10 +11,9 @@ class ShippingController extends Controller
     public function quoteShipment(Request $request)
     {
         // Crear el cliente HTTP con Guzzle
-        $client = new \GuzzleHttp\Client();
+        $client = new Client();
 
         try {
-            // Preparar los datos para el JSON del cURL
             $payload = [
                 "origin" => [
                     "name" => "USA",
@@ -76,9 +75,7 @@ class ShippingController extends Controller
                     "currency" => "MXN",
                 ],
             ];
-            #dd($payload);
 
-            // Realizar la solicitud POST al endpoint de cotización
             $response = $client->post('https://api-test.envia.com/ship/rate/', [
                 'headers' => [
                     'Authorization' => 'Bearer ' . env('ENVIA_API_KEY'),
@@ -87,19 +84,9 @@ class ShippingController extends Controller
                 'json' => $payload,
             ]);
 
-            // Decodificar la respuesta de la API
             $quoteData = json_decode($response->getBody(), true);
-
-            Log::info($quoteData);
-
-            // Retornar la cotización al frontend
-            return response()->json([
-                'status' => 'success',
-                'data' => $quoteData,
-            ]);
-
+            return view('shipping.quote', ['quotes' => $quoteData]);
         } catch (\Exception $e) {
-            // Manejo de errores
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
