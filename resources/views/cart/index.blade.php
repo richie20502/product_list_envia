@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito de Compras</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-gray-100">
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold mb-6">Carrito de Compras</h1>
@@ -14,6 +16,7 @@
                 <span class="block sm:inline">{{ session('success') }}</span>
             </div>
         @endif
+
         @if(count($cartItems) > 0)
             <div class="bg-white rounded-lg shadow-md p-6 mb-4">
                 <table class="w-full">
@@ -55,17 +58,58 @@
                     <span class="font-bold text-lg">${{ $total }}</span>
                 </div>
             </div>
+
+            <!-- Formulario para Datos de Envío -->
+            <div class="bg-white rounded-lg shadow-md p-6 mb-4">
+                <h2 class="text-2xl font-bold mb-4">Datos de Envío</h2>
+                <form action="{{ route('quote.generate') }}" method="POST">
+                    @csrf
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <input type="text" name="name" value="francisco" placeholder="Nombre" class="p-2 border rounded"
+                            required>
+                        <input type="text" name="company" value="" placeholder="Empresa (opcional)"
+                            class="p-2 border rounded">
+                        <input type="email" name="email" value="" placeholder="Correo Electrónico"
+                            class="p-2 border rounded">
+                        <input type="text" name="phone" value="8180180543" placeholder="Teléfono" class="p-2 border rounded"
+                            required>
+                        <input type="text" name="street" value="avenida revolución" placeholder="Calle"
+                            class="p-2 border rounded" required>
+                        <input type="text" name="number" value="1500" placeholder="Número" class="p-2 border rounded"
+                            required>
+                        <input type="text" name="district" value="san angel" placeholder="Colonia"
+                            class="p-2 border rounded">
+                        <input type="text" name="city" value="ciudad de méxico" placeholder="Ciudad"
+                            class="p-2 border rounded" required>
+                        <input type="text" name="state" value="cmx" placeholder="Estado" class="p-2 border rounded"
+                            required>
+                        <input type="text" name="postalCode" value="01000" placeholder="Código Postal"
+                            class="p-2 border rounded" required>
+                        <input type="text" name="reference" value="" placeholder="Referencia (opcional)"
+                            class="p-2 border rounded">
+                        <input type="text" name="latitude" value="19.348778" placeholder="Latitud (opcional)"
+                            class="p-2 border rounded">
+                        <input type="text" name="longitude" value="-99.189602" placeholder="Longitud (opcional)"
+                            class="p-2 border rounded">
+                    </div>
+                    <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600">Generar
+                        Envío</button>
+                </form>
+            </div>
             <div class="mt-6">
-                <a href="{{ route('products.index') }}" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Continuar Comprando</a>
+                <a href="{{ route('products.index') }}"
+                    class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Continuar Comprando</a>
             </div>
         @else
             <div class="bg-white rounded-lg shadow-md p-6 mb-4">
                 <p>Tu carrito está vacío.</p>
             </div>
             <div class="mt-6">
-                <a href="{{ route('products.index') }}" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Ir a Comprar</a>
+                <a href="{{ route('products.index') }}"
+                    class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Ir a Comprar</a>
             </div>
         @endif
     </div>
 </body>
+
 </html>
