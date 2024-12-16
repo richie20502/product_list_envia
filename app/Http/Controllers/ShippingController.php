@@ -119,20 +119,51 @@ class ShippingController extends Controller
                         "reference" => ""
                     ],
                     "destination" => [
-                        "name" => $request->input('recipient_name'),
-                        "company" => $request->input('recipient_company'),
-                        "email" => $request->input('recipient_email'),
-                        "phone" => $request->input('recipient_phone'),
-                        "street" => $request->input('recipient_street'),
-                        "number" => $request->input('recipient_number'),
-                        "district" => $request->input('recipient_district'),
-                        "city" => $request->input('recipient_city'),
-                        "state" => $request->input('recipient_state'),
+                        "name" => "oscar",
+                        "company" => "empresa",
+                        "email" => "osgosf8@gmail.com",
+                        "phone" => "8116300800",
+                        "street" => "av vasconcelos",
+                        "number" => "1400",
+                        "district" => "palo blanco",
+                        "city" => "monterrey",
+                        "state" => "NL",
                         "country" => "MX",
-                        "postalCode" => $request->input('recipient_postalCode'),
-                        "reference" => $request->input('recipient_reference')
+                        "postalCode" => "66240",
+                        "reference" => ""
                     ],
-                    "packages" => $request->input(' '),
+                    "packages" => [
+                        [
+                            "content" => "camisetas rojas",
+                            "amount" => 2,
+                            "type" => "box",
+                            "dimensions" => [
+                                "length" => 2,
+                                "width" => 5,
+                                "height" => 5
+                            ],
+                            "weight" => 63,
+                            "insurance" => 0,
+                            "declaredValue" => 400,
+                            "weightUnit" => "KG",
+                            "lengthUnit" => "CM"
+                        ],
+                        [
+                            "content" => "camisetas rojas",
+                            "amount" => 2,
+                            "type" => "box",
+                            "dimensions" => [
+                                "length" => 1,
+                                "width" => 17,
+                                "height" => 2
+                            ],
+                            "weight" => 5,
+                            "insurance" => 400,
+                            "declaredValue" => 400,
+                            "weightUnit" => "KG",
+                            "lengthUnit" => "CM"
+                        ]
+                    ],
                     "shipment" => [
                         "carrier" => "dhl",
                         "service" => "express",
@@ -142,7 +173,7 @@ class ShippingController extends Controller
                     "settings" => [
                         "printFormat" => "PDF",
                         "printSize" => "STOCK_4X6",
-                        "comments" => $request->input('comments')
+                        "comments" => "COMENTARIOS"
                     ]
                 ]
             ]);
