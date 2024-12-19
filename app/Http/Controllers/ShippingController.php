@@ -34,36 +34,36 @@ class ShippingController extends Controller
                     ],
                 ],
                 "destination" => [
-                    "name" => $request->input('name'),
-                    "company" => "",
-                    "email" => "",
-                    "phone" => $request->input('phone'),
-                    "street" => $request->input('street'),
-                    "number" => $request->input('number'),
-                    "district" => $request->input('district'),
-                    "city" => $request->input('city'),
-                    "state" => $request->input('state'),
-                    "country" => "MX",
-                    "postalCode" => $request->input('postalCode'),
-                    "reference" => "",
+                    "name" => $request->input('name'), # "name": Nombre del remitente (por ejemplo, una persona o la tienda).
+                    "company" => "", # "company": Nombre de la empresa que envía el paquete.
+                    "email" => "", # "email": Correo electrónico del remitente.
+                    "phone" => $request->input('phone'), # "phone": Número de teléfono del remitente.
+                    "street" => $request->input('street'), # "street": Nombre de la calle donde se encuentra el remitente.
+                    "number" => $request->input('number'), # "number": Número de la dirección del remitente (ejemplo: número exterior).
+                    "district" => $request->input('district'), # "district": Colonia o distrito del remitente.
+                    "city" => $request->input('city'), # "city": Ciudad donde está ubicado el remitente.
+                    "state" => $request->input('state'), # "state": Estado de la ubicación del remitente (usa códigos estándar de Envia.com, como "CMX" para Ciudad de México).
+                    "country" => "MX", # "country": País del remitente (código de dos letras, como "MX" para México).
+                    "postalCode" => $request->input('postalCode'), # "postalCode": Código postal de la ubicación del remitente.
+                    "reference" => "", #"reference": Referencias adicionales para encontrar la dirección.
                     "coordinates" => [
-                        "latitude" => $request->input('latitude'),
-                        "longitude" => $request->input('longitude'),
+                        "latitude" => $request->input('latitude'), # "latitude": Latitud.
+                        "longitude" => $request->input('longitude'), # "longitude": Longitud.
                     ],
                 ],
                 "packages" => [
                     [
-                        "content" => "zapatos",
-                        "amount" => 1,
-                        "type" => "box",
-                        "weight" => 1,
-                        "insurance" => 0,
-                        "declaredValue" => 0,
-                        "weightUnit" => "KG",
+                        "content" => "zapatos",  #"content": Descripción del contenido del paquete (por ejemplo, "zapatos").
+                        "amount" => 1, #"amount": Cantidad de paquetes que se enviarán con esta descripción.
+                        "type" => "box", # "type": Tipo de paquete (por ejemplo, "box" para caja).
+                        "weight" => 1, # "weight":  Peso del paquete.
+                        "insurance" => 0, # "insurance": Seguro del paquete (0 indica que no se está asegurando).
+                        "declaredValue" => 0, # "declaredValue": Valor declarado del paquete (puede ser usado para seguros o aduanas).
+                        "weightUnit" => "KG",# "weightUnit": Unidad de peso (normalmente "KG").
                         "dimensions" => [
-                            "length" => 15,
-                            "width" => 10,
-                            "height" => 10,
+                            "length" => 15, # "length": Longitud del paquete en cm.
+                            "width" => 10, # "width": Ancho del paquete en cm.
+                            "height" => 10, # "height": Altura del paquete en cm.
                         ],
                     ],
                 ],
