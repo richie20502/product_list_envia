@@ -1,3 +1,5 @@
+<?php print_r($dataRequest) ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -17,6 +19,8 @@
                         <th class="text-left font-bold">Transportista</th>
                         <th class="text-left font-bold">Servicio</th>
                         <th class="text-left font-bold">Estimación de Entrega</th>
+                        <th class="text-left font-bold">Costo Envio</th>
+                        <th class="text-left font-bold">Costo Pedido</th>
                         <th class="text-left font-bold">Costo Total</th>
                         <th class="text-left font-bold">Acción</th>
                     </tr>
@@ -28,6 +32,9 @@
                             <td class="py-4">{{ $quote['serviceDescription'] }}</td>
                             <td class="py-4">{{ $quote['deliveryEstimate'] }} ({{ $quote['deliveryDate']['date'] }})</td>
                             <td class="py-4">${{ number_format($quote['totalPrice'], 2) }} {{ $quote['currency'] }}</td>
+                            <td class="py-4">${{ number_format($dataRequest['total'], 2) }} {{ $quote['currency'] }}</td>
+                            <td class="py-4">${{ number_format(($dataRequest['total'] + $quote['totalPrice']), 2) }} {{ $quote['currency'] }}</td>
+                            
                             <td class="py-4">
                                 <form action="{{ route('shipping.generate') }}" method="POST">
                                     @csrf

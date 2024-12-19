@@ -65,6 +65,7 @@
                 <form action="{{ route('shipping.quote') }}" method="POST">
                     @csrf
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <input type="text" name="total" id="" value="{{ $total }}" readonly="true">
                         <input type="text" name="name" value="francisco" placeholder="Nombre" class="p-2 border rounded"
                             required>
                         <input type="text" name="company" value="" placeholder="Empresa (opcional)"
@@ -111,5 +112,17 @@
         @endif
     </div>
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form[action="{{ route("shipping.quote") }}"]');
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        form.addEventListener('submit', function () {
+            submitButton.disabled = true;
+            submitButton.textContent = 'Procesando...'; // Cambia el texto del botón opcionalmente
+        });
+    });
+</script>
 
 </html>

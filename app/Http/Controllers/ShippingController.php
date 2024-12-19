@@ -10,6 +10,7 @@ class ShippingController extends Controller
 {
     public function quoteShipment(Request $request)
     {
+        //dd($request->all());
         // Crear el cliente HTTP con Guzzle
         $client = new Client();
 
@@ -85,7 +86,11 @@ class ShippingController extends Controller
             ]);
 
             $quoteData = json_decode($response->getBody(), true);
-            return view('shipping.quote', ['quotes' => $quoteData]);
+            Log::info("===================");
+            Log::info($quoteData);
+            Log::info("===================");
+            
+            return view('shipping.quote', ['quotes' => $quoteData, "dataRequest" => $request->all()]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
@@ -95,7 +100,67 @@ class ShippingController extends Controller
     }
     public function generateShipment(Request $request)
     {
+
+        //dd($request->all());
         $client = new Client();
+        $shipmentPayload = [
+            "origin" => [
+                "name" => "Ricardo",
+                "company" => "oskys factory",
+                "email" => "richie.lugo.recillas.1990@gmail.com",
+                "phone" => "8116300800",
+                "street" => "351523",
+                "number" => "1400",
+                "district" => "mirasierra",
+                "city" => "Toluca",
+                "state" => "cmx",
+                "country" => "MX",
+                "postalCode" => "50000",
+                "reference" => ""
+            ],
+            "destination" => [
+                "name" => "francisco",
+                "company" => "",
+                "email" => "",
+                "phone" => "8180180543",
+                "street" => "av vasconcelos",
+                "number" => "1400",
+                "district" => "palo blanco",
+                "city" => "monterrey",
+                "state" => "NL",
+                "country" => "MX",
+                "postalCode" => "01000",
+                "reference" => ""
+            ],
+            "packages" => [
+                [
+                    "content" => "camisetas rojas",
+                    "amount" => 1,
+                    "type" => "box",
+                    "dimensions" => [
+                        "length" => 15,
+                        "width" => 10,
+                        "height" => 10
+                    ],
+                    "weight" => 1,
+                    "insurance" => 0,
+                    #"declaredValue" => 400,
+                    "weightUnit" => "KG",
+                    "lengthUnit" => "CM"
+                ]
+            ],
+            "shipment" => [
+                "carrier" => $request->carrier,
+                "service" => $request->service,
+                "type" => 1,
+                "currency" => "MXN"
+            ],
+            "settings" => [
+                "printFormat" => "PDF",
+                "printSize" => "STOCK_4X6",
+                "comments" => "COMENTARIOS"
+            ]
+        ];
 
         try {
             $response = $client->post('https://api-test.envia.com/ship/generate/', [
@@ -103,79 +168,7 @@ class ShippingController extends Controller
                     'Authorization' => 'Bearer ' . env('ENVIA_API_KEY'),
                     'Content-Type' => 'application/json',
                 ],
-                'json' => [
-                    "origin" => [
-                        "name" => "oscar mx",
-                        "company" => "oskys factory",
-                        "email" => "osgosf8@gmail.com",
-                        "phone" => "8116300800",
-                        "street" => "av vasconcelos",
-                        "number" => "1400",
-                        "district" => "mirasierra",
-                        "city" => "Monterrey",
-                        "state" => "NL",
-                        "country" => "MX",
-                        "postalCode" => "66236",
-                        "reference" => ""
-                    ],
-                    "destination" => [
-                        "name" => "oscar",
-                        "company" => "empresa",
-                        "email" => "osgosf8@gmail.com",
-                        "phone" => "8116300800",
-                        "street" => "av vasconcelos",
-                        "number" => "1400",
-                        "district" => "palo blanco",
-                        "city" => "monterrey",
-                        "state" => "NL",
-                        "country" => "MX",
-                        "postalCode" => "66240",
-                        "reference" => ""
-                    ],
-                    "packages" => [
-                        [
-                            "content" => "camisetas rojas",
-                            "amount" => 2,
-                            "type" => "box",
-                            "dimensions" => [
-                                "length" => 2,
-                                "width" => 5,
-                                "height" => 5
-                            ],
-                            "weight" => 63,
-                            "insurance" => 0,
-                            "declaredValue" => 400,
-                            "weightUnit" => "KG",
-                            "lengthUnit" => "CM"
-                        ],
-                        [
-                            "content" => "camisetas rojas",
-                            "amount" => 2,
-                            "type" => "box",
-                            "dimensions" => [
-                                "length" => 1,
-                                "width" => 17,
-                                "height" => 2
-                            ],
-                            "weight" => 5,
-                            "insurance" => 400,
-                            "declaredValue" => 400,
-                            "weightUnit" => "KG",
-                            "lengthUnit" => "CM"
-                        ]
-                    ],
-                    "shipment" => [
-                        "carrier" => "dhl",
-                        "service" => "express",
-                        "type" => 1,
-                        "currency" => "MXN"
-                    ],
-                    "settings" => [
-                        "printFormat" => "PDF",
-                        "printSize" => "STOCK_4X6",
-                        "comments" => "COMENTARIOS"
-                    ]
-                ]
+                'json' => $shipmentPayload
             ]);
 
             $shipmentData = json_decode($response->getBody(), true);
