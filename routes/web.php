@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ShippingController;
+use App\Http\Controllers\ProductsZenzaraController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +31,11 @@ Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('car
 Route::post('/shipping/generate', [ShippingController::class, 'generateShipment'])->name('shipping.generate');
 Route::post('/shipping/quote', [ShippingController::class, 'quoteShipment'])->name('shipping.quote');
 
+
+
+Route::get('/zensara', [ProductsZenzaraController::class, 'index'])->name('zensara.index');
+Route::post('/zensara/add/{id}', [ProductsZenzaraController::class, 'add'])->name('zensara.add');
+Route::get('/zensara/cart', [ProductsZenzaraController::class, 'cart'])->name('zensara.cart');
 
 
 

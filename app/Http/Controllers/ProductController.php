@@ -19,7 +19,7 @@ class ProductController extends Controller
     public function index()
     {
         $token = $this->authService->getToken();
-        dd($token);
+        //dd($token);
         $products = Product::all();
         return view('products.index', compact('products'));
     }

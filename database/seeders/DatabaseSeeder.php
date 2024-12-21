@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class
         ]);
 
+        $this->call(ProductsZenzaraSeeder::class);
+
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
