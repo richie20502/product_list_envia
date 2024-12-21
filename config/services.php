@@ -30,5 +30,11 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'skydropx' => [
+        'auth_url' => env('SKYDROPX_AUTH_URL'),
+        'client_id' => env('SKYDROPX_CLIENT_ID'),
+        'client_secret' => env('SKYDROPX_CLIENT_SECRET'),
+    ],
+
 
 ];
