@@ -10,7 +10,7 @@
 
 <body class="bg-gray-100">
     <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold mb-6">Carrito de Compras</h1>
+        <h1 class="text-3xl font-bold mb-6">Carrito de Compras Zensara</h1>
         @if(session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
                 <span class="block sm:inline">{{ session('success') }}</span>
@@ -62,7 +62,7 @@
             <!-- Formulario para Datos de Envío -->
             <div class="bg-white rounded-lg shadow-md p-6 mb-4">
                 <h2 class="text-2xl font-bold mb-4">Datos de Envío</h2>
-                <form action="{{ route('shipping.quote') }}" method="POST">
+                <form action="{{ route('zensara.quotation.create') }}" method="POST">
                     @csrf
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <input type="text" name="total" id="" value="{{ $total }}" readonly="true">
@@ -115,7 +115,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const form = document.querySelector('form[action="{{ route("shipping.quote") }}"]');
+        const form = document.querySelector('form[action="{{ route("zensara.quotation.create") }}"]');
         const submitButton = form.querySelector('button[type="submit"]');
 
         form.addEventListener('submit', function () {

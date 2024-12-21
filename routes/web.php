@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\ProductsZenzaraController;
+use App\Http\Controllers\ZenzaraCartController;
 
 
 /*
@@ -36,6 +37,9 @@ Route::post('/shipping/quote', [ShippingController::class, 'quoteShipment'])->na
 Route::get('/zensara', [ProductsZenzaraController::class, 'index'])->name('zensara.index');
 Route::post('/zensara/add/{id}', [ProductsZenzaraController::class, 'add'])->name('zensara.add');
 Route::get('/zensara/cart', [ProductsZenzaraController::class, 'cart'])->name('zensara.cart');
+Route::post('/zensara/quotation', [ZenzaraCartController::class, 'quotations'])->name('zensara.quotation.create');
+
+#zensara.shipping.create
 
 
 

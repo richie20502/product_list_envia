@@ -50,6 +50,6 @@ class ProductsZenzaraController extends Controller
             $total += $item['price'] * $item['quantity'];
         }
 
-        return view('cart.index', compact('cartItems', 'total'));
+        return view('zensara.cart.index', compact('cartItems', 'total'));
     }
 }
