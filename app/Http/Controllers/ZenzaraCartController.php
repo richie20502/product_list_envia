@@ -69,7 +69,7 @@ class ZenzaraCartController extends Controller
                         "sector" => "La Finca",
                         "city" => "Monterrey",
                         "state" => "Nuevo León",
-                        "postal_code" => "64000",
+                        "postal_code" => "50000",
                         "country" => "MX",
                         "person_name" => "Bart Simpson",
                         "company" => "Casa de Bart S.A.S de C.V.",

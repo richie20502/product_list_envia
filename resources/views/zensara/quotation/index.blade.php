@@ -20,7 +20,8 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             @foreach ($quotation['rates'] as $rate)
-                <div class="bg-white shadow-md rounded-lg p-4">
+                <div class="bg-white shadow-md rounded-lg p-4 
+                    @if (!$rate['total']) opacity-50 cursor-not-allowed @endif">
                     <h3 class="text-xl font-bold mb-2">{{ $rate['provider_name'] }}</h3>
                     <p><strong>Servicio:</strong> {{ $rate['provider_service_name'] }}</p>
                     <p><strong>Tipo:</strong> {{ $rate['rate_type'] ?? 'No especificado' }}</p>
