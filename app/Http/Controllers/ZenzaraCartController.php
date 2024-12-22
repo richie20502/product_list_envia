@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\AuthService;
 use Illuminate\Support\Facades\Log;
+use App\Models\ProductsZenzara;
 
 class ZenzaraCartController extends Controller
 {
@@ -16,38 +17,102 @@ class ZenzaraCartController extends Controller
     }
     public function create(Request $request)
     {
+        //dd($request->all());
+        $part1 = rand(100, 999);
+        $part2 = rand(1000000, 9999999);
+        $part3 = rand(1000, 9999);
+        $reference_number = "{$part1}-{$part2}-{$part3}";
+        $productsData = json_decode($request->input('products'), true);
+        $productDetails = [];
+
+        foreach ($productsData as $id => $product) {
+            $productModel = ProductsZenzara::find($id);
+
+            if ($productModel) {
+                    $productDetails[] = [
+                        'id' => $productModel->id,
+                        'name' => $productModel->name,
+                        'description' => $productModel->description,
+                        'price' => $productModel->price,
+                        'quantity' => $product['quantity'], 
+                        'weight' => $productModel->weight,
+                        'weight_unit' => $productModel->weight_unit,
+                        'subtotal' => $productModel->price * $product['quantity'],
+                    ];
+                } else {
+                    return response()->json([
+                        'error' => "Producto con ID {$id} no encontrado."
+                    ], 404);
+                }
+            }
+
+            $total = array_reduce($productDetails, function ($carry, $product) {
+                return $carry + $product['subtotal'];
+            }, 0);
+
+
+
+            $totalWeightKg = array_reduce($productDetails, function ($carry, $item) {
+                // Convertir gramos a kilogramos si es necesario
+                $weightInKg = ($item['weight_unit'] === 'G') ? $item['weight'] / 1000 : $item['weight'];
+                // Multiplicar por la cantidad
+                return $carry + ($weightInKg * $item['quantity']);
+            }, 0);
+
+            if ($totalWeightKg < 1) {
+                $totalWeight = $totalWeightKg * 1000;
+                $unit = "g";
+            } else {
+                $totalWeight = $totalWeightKg;
+                $unit = "kg";
+            }
+
+
+            $totalQuantity = array_reduce($productDetails, function ($carry, $item) {
+                return $carry + $item['quantity'];
+            }, 0);
+            
+            // Mostrar el resultado
+            //echo "La suma total de cantidades es: {$totalQuantity}";
+
+            $transformedData = array_map(function ($item) {
+                return [
+                    "name" => $item['name'],
+                    "hs_code" => "0000.00", // Código genérico; cámbialo según sea necesario
+                    "sku" => "SKU-" . str_pad($item['id'], 3, "0", STR_PAD_LEFT), // Generar SKU dinámico
+                    "price" => $item['price'],
+                    "quantity" => $item['quantity'],
+                    "weight" => $item['weight'] 
+                    #"height" => 10, 
+                    #"length" => 10,
+                    #"width" => 10,
+                ];
+            }, $productDetails);
+            
+            //dd($transformedData);
+
+
+
+            //dd( "El peso total es: {$totalWeight} {$unit}");
+
+
         try {
             $orderData = [
                 "order" => [
-                    "reference" => 188,
-                    "reference_number" => "188-5455445-2222",
-                    "total_price" => "57.00",
+                    "reference" => $part1,
+                    "reference_number" => $reference_number,
+                    "total_price" => round($total, 2),
                     "parcels" => [
                         [
-                            "weight" => 10,
-                            "mass_unit" => "kg",
                             "length" => 10,
                             "width" => 10,
                             "height" => 10,
-                            "quantity" => 1,
                             "dimension_unit" => "cm",
                             "package_type" => "7H1",
                             "consignment_note" => 24121500,
                         ]
                     ],
-                    "products" => [
-                        [
-                            "name" => "Bicicleta",
-                            "hs_code" => "9560.63",
-                            "sku" => "BIC-001",
-                            "price" => "57.00",
-                            "quantity" => 1,
-                            "weight" => 10,
-                            "height" => 10,
-                            "length" => 10,
-                            "width" => 10,
-                        ]
-                    ],
+                    "products" =>  $transformedData,
                     "shipper_address" => [
                         "address" => "Vía Industrial",
                         "internal_number" => "100",
@@ -55,29 +120,31 @@ class ZenzaraCartController extends Controller
                         "sector" => "Asarco",
                         "city" => "Monterrey",
                         "state" => "Nuevo León",
-                        "postal_code" => "64550",
+                        "postal_code" => "52147",
                         "country" => "MX",
-                        "person_name" => "Homero Simpson",
+                        "person_name" => "Empresa",
                         "company" => "Inversiones Montgomery Burns S.A.S de C.V.",
                         "phone" => "4434434444",
                         "email" => "homero@burns.com",
                     ],
                     "recipient_address" => [
-                        "address" => "Avenida Siempre Viva",
+                        "address" => $request->street,
                         "internal_number" => "742",
-                        "reference" => "Casa color durazno.",
-                        "sector" => "La Finca",
-                        "city" => "Monterrey",
-                        "state" => "Nuevo León",
-                        "postal_code" => "50000",
+                        "reference" => $request->reference,
+                        "sector" => "",
+                        "city" => $request->city,
+                        "state" => $request->state,
+                        "postal_code" => $request->postalCode,
                         "country" => "MX",
-                        "person_name" => "Bart Simpson",
-                        "company" => "Casa de Bart S.A.S de C.V.",
-                        "phone" => "4434434444",
-                        "email" => "bart@simpson.com",
+                        "person_name" => $request->name,
+                        "company" => $request->company,
+                        "phone" => $request->phone,
+                        "email" => $request->email,
                     ],
                 ]
             ];
+
+            Log::info($orderData);
 
             $response = $this->authService->createOrder($orderData);
 
@@ -90,6 +157,7 @@ class ZenzaraCartController extends Controller
 
     public function quotations()
     {
+        
         $quotationData = [
             'quotation' => [
                 'address_from' => [

@@ -41,7 +41,7 @@
                                 <td class="py-4">{{ $details['quantity'] }}</td>
                                 <td class="py-4">${{ $details['price'] * $details['quantity'] }}</td>
                                 <td class="py-4">
-                                    <form action="{{ route('cart.remove', $id) }}" method="POST">
+                                    <form action="{{ route('zensara.cart.remove', $id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-red-600 hover:text-red-900">Eliminar</button>
@@ -64,15 +64,16 @@
                 <h2 class="text-2xl font-bold mb-4">Datos de Envío</h2>
                 <form action="{{ route('zensara.quotation.create') }}" method="POST">
                     @csrf
+                    <input type="hidden" name="products" value="{{ json_encode($cartItems) }}">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <input type="text" name="total" id="" value="{{ $total }}" readonly="true">
-                        <input type="text" name="name" value="francisco" placeholder="Nombre" class="p-2 border rounded"
+                        <input type="hidden" name="total" id="" value="{{ $total }}" readonly="true">
+                        <input type="text" name="name" value="Ricardo Lugo " placeholder="Nombre" class="p-2 border rounded"
                             required>
                         <input type="text" name="company" value="" placeholder="Empresa (opcional)"
                             class="p-2 border rounded">
-                        <input type="email" name="email" value="" placeholder="Correo Electrónico"
+                        <input type="email" name="email" value="richie.lugo.recillas.1990@gmail.com" placeholder="Correo Electrónico"
                             class="p-2 border rounded">
-                        <input type="text" name="phone" value="8180180543" placeholder="Teléfono" class="p-2 border rounded"
+                        <input type="text" name="phone" value="7224601404" placeholder="Teléfono" class="p-2 border rounded"
                             required>
                         <input type="text" name="street" value="avenida revolución" placeholder="Calle"
                             class="p-2 border rounded" required>
@@ -87,10 +88,6 @@
                         <input type="text" name="postalCode" value="50000" placeholder="Código Postal"
                             class="p-2 border rounded" required>
                         <input type="text" name="reference" value="" placeholder="Referencia (opcional)"
-                            class="p-2 border rounded">
-                        <input type="text" name="latitude" value="19.348778" placeholder="Latitud (opcional)"
-                            class="p-2 border rounded">
-                        <input type="text" name="longitude" value="-99.189602" placeholder="Longitud (opcional)"
                             class="p-2 border rounded">
                     </div>
                     <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600">Generar

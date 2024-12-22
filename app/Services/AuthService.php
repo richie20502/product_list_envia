@@ -65,7 +65,7 @@ class AuthService
     {
         $token = $this->getToken(); // Obtiene el token de acceso
 
-        $response = $this->client->post($this->authUrl . 'api/v1/orders/', [
+        $response = $this->client->post($this->authUrl . 'orders/', [
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Authorization' => 'Bearer ' . $token,

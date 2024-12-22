@@ -52,4 +52,14 @@ class ProductsZenzaraController extends Controller
 
         return view('zensara.cart.index', compact('cartItems', 'total'));
     }
+
+    public function remove(Request $request, $id)
+    {
+        $cart = session()->get('cart_zensara', []);
+        if (isset($cart[$id])) {
+            unset($cart[$id]);
+            session()->put('cart_zensara', $cart);
+        }
+        return redirect()->back()->with('success', 'Producto eliminado del carrito exitosamente!');
+    }
 }

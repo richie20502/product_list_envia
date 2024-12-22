@@ -1,0 +1,202 @@
+{
+	"info": {
+		"_postman_id": "bccb65c8-84ce-4b11-8f93-a3c5a0ac472b",
+		"name": "skydrop pro",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25799865"
+	},
+	"item": [
+		{
+			"name": "token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{BEARER_TOKEN}}",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"client_id\": \"_VJyXyh1g5EXUcbiUF0vnbFPHd4LfblgtPS4o3bPmLg\",\r\n  \"client_secret\": \"O3jgWaOD5J3eaNy4QyNa05pwmK78HKWBrLQHQ1imOC8\",\r\n  \"grant_type\": \"client_credentials\",\r\n  \"redirect_uri\": \"urn:ietf:wg:oauth:2.0:oob\",\r\n  \"refresh_token\": \"[string]\",\r\n  \"scope\": \"default orders.create\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://pro.skydropx.com/api/v1/oauth/token",
+					"protocol": "https",
+					"host": [
+						"pro",
+						"skydropx",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"oauth",
+						"token"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST 'https://pro.skydropx.com/api/v1/oauth/token' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -H 'Authorization: Bearer {{BEARER_TOKEN}}' \r\n        "
+			},
+			"response": []
+		},
+		{
+			"name": "Crear orden",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer J5MijBpspXvcuLbb16As1Eucm9plbpUdABE57dYVVH4"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"order\": {\r\n    \"reference\": 188,\r\n    \"reference_number\": \"188-5455445-2222\",\r\n    \"total_price\": \"57.00\",\r\n    \"parcels\": [\r\n      {\r\n        \"weight\": 10,\r\n        \"mass_unit\": \"kg\",\r\n        \"length\": 10,\r\n        \"width\": 10,\r\n        \"height\": 10,\r\n        \"quantity\": 1,\r\n        \"dimension_unit\": \"cm\",\r\n        \"package_type\": \"7H1\",\r\n        \"consignment_note\": 24121500\r\n      }\r\n    ],\r\n    \"products\": [\r\n      {\r\n        \"name\": \"Bicicleta\",\r\n        \"hs_code\": \"9560.63\",\r\n        \"sku\": \"BIC-001\",\r\n        \"price\": \"57.00\",\r\n        \"quantity\": 1,\r\n        \"weight\": 10,\r\n        \"height\": 10,\r\n        \"length\": 10,\r\n        \"width\": 10\r\n      }\r\n    ],\r\n    \"shipper_address\": {\r\n      \"address\": \"Vía Industrial\",\r\n      \"internal_number\": \"100\",\r\n      \"reference\": \"Planta nuclear\",\r\n      \"sector\": \"Asarco\",\r\n      \"city\": \"Monterrey\",\r\n      \"state\": \"Nuevo León\",\r\n      \"postal_code\": \"64550\",\r\n      \"country\": \"MX\",\r\n      \"person_name\": \"Homero Simpson\",\r\n      \"company\": \"Inversiones Montgomery Burns S.A.S de C.V.\",\r\n      \"phone\": \"4434434444\",\r\n      \"email\": \"homero@burns.com\"\r\n    },\r\n    \"recipient_address\": {\r\n      \"address\": \"Avenida Siempre Viva\",\r\n      \"internal_number\": \"742\",\r\n      \"reference\": \"Casa color durazno.\",\r\n      \"sector\": \"La Finca\",\r\n      \"city\": \"Monterrey\",\r\n      \"state\": \"Nuevo León\",\r\n      \"postal_code\": \"64000\",\r\n      \"country\": \"MX\",\r\n      \"person_name\": \"Bart Simpson\",\r\n      \"company\": \"Casa de Bart S.A.S de C.V.\",\r\n      \"phone\": \"4434434444\",\r\n      \"email\": \"bart@simpson.com\"\r\n    }\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://pro.skydropx.com/api/v1/orders/",
+					"protocol": "https",
+					"host": [
+						"pro",
+						"skydropx",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"orders",
+						""
+					]
+				},
+				"description": "Generated from cURL: curl -X POST 'https://pro.skydropx.com/api/v1/orders/' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -H 'Authorization: Bearer {{BEARER_TOKEN}}' \r\n        "
+			},
+			"response": []
+		},
+		{
+			"name": "cotizacion",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer o-PTAaE5b3J8lcFvRZ7AZ0cu8GHhNzg3ySpHZDs9IGg"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"quotation\": {\r\n    \"address_from\": {\r\n      \"country_code\": \"mx\",\r\n      \"postal_code\": 52147,\r\n      \"area_level1\": \"Nuevo León\",\r\n      \"area_level2\": \"Monterrey\",\r\n      \"area_level3\": \"Monterrey Centro\",\r\n      \"street1\": \"Padre Raymundo Jardón 925\",\r\n      \"apartment_number\": \"3a\",\r\n      \"reference\": \"Casa roja\",\r\n      \"name\": \"Homero Simpson\",\r\n      \"company\": \"Skydropx\",\r\n      \"phone\": 8100998879,\r\n      \"email\": \"homero.simpson@gmail.com\"\r\n    },\r\n    \"address_to\": {\r\n      \"country_code\": \"mx\",\r\n      \"postal_code\": 50000,\r\n      \"area_level1\": \"Nuevo León\",\r\n      \"area_level2\": \"Monterrey\",\r\n      \"area_level3\": \"Monterrey Centro\",\r\n      \"street1\": \"Padre Raymundo Jardón 925\",\r\n      \"apartment_number\": \"3a\",\r\n      \"reference\": \"Casa azul\",\r\n      \"name\": \"Bart Simpson\",\r\n      \"company\": \"Skydropx\",\r\n      \"phone\": 8223651143,\r\n      \"email\": \"bart.simpson@gmail.com\"\r\n    },\r\n    \"parcel\": {\r\n      \"length\": 10,\r\n      \"width\": 10,\r\n      \"height\": 10,\r\n      \"weight\": 1\r\n    },\r\n    \"requested_carriers\": [\r\n      \"fedex\",\r\n      \"dhl\",\r\n      \"estafeta\",\r\n      \"paquetexpress\",\r\n      \"sendex\",\r\n      \"quiken\",\r\n      \"ninetynineminutes\",\r\n      \"jtexpress\"\r\n    ]\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://pro.skydropx.com/api/v1/quotations",
+					"protocol": "https",
+					"host": [
+						"pro",
+						"skydropx",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"quotations"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST 'https://pro.skydropx.com/api/v1/quotations' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -H 'Authorization: Bearer {{BEARER_TOKEN}}' \r\n        "
+			},
+			"response": []
+		},
+		{
+			"name": "https://pro.skydropx.com/api/v1/quotations/example_id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{BEARER_TOKEN}}"
+					}
+				],
+				"url": {
+					"raw": "https://pro.skydropx.com/api/v1/quotations/example_id",
+					"protocol": "https",
+					"host": [
+						"pro",
+						"skydropx",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"quotations",
+						"example_id"
+					]
+				},
+				"description": "Generated from cURL: curl -X GET 'https://pro.skydropx.com/api/v1/quotations/example_id' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -H 'Authorization: Bearer {{BEARER_TOKEN}}' \r\n        "
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar cotizador",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer o-PTAaE5b3J8lcFvRZ7AZ0cu8GHhNzg3ySpHZDs9IGg"
+					}
+				],
+				"url": {
+					"raw": "https://pro.skydropx.com/api/v1/quotations/3601c840-fe0b-4df0-a77a-1c0c3b8073aa",
+					"protocol": "https",
+					"host": [
+						"pro",
+						"skydropx",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"quotations",
+						"3601c840-fe0b-4df0-a77a-1c0c3b8073aa"
+					]
+				},
+				"description": "Generated from cURL: curl -X GET 'https://pro.skydropx.com/api/v1/quotations/example_id' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -H 'Authorization: Bearer {{BEARER_TOKEN}}' \r\n        "
+			},
+			"response": []
+		}
+	]
+}
