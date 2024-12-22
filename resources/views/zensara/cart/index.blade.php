@@ -84,7 +84,7 @@
                             class="p-2 border rounded" required>
                         <input type="text" name="state" value="cmx" placeholder="Estado" class="p-2 border rounded"
                             required>
-                        <input type="text" name="postalCode" value="01000" placeholder="Código Postal"
+                        <input type="text" name="postalCode" value="50000" placeholder="Código Postal"
                             class="p-2 border rounded" required>
                         <input type="text" name="reference" value="" placeholder="Referencia (opcional)"
                             class="p-2 border rounded">
@@ -98,7 +98,7 @@
                 </form>
             </div>
             <div class="mt-6">
-                <a href="{{ route('products.index') }}"
+                <a href="{{ route('zensara.index') }}"
                     class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Continuar Comprando</a>
             </div>
         @else
@@ -106,7 +106,7 @@
                 <p>Tu carrito está vacío.</p>
             </div>
             <div class="mt-6">
-                <a href="{{ route('products.index') }}"
+                <a href="{{ route('zensara.index') }}"
                     class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Ir a Comprar</a>
             </div>
         @endif
