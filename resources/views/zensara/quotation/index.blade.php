@@ -25,17 +25,39 @@
                     <h3 class="text-xl font-bold mb-2">{{ $rate['provider_name'] }}</h3>
                     <p><strong>Servicio:</strong> {{ $rate['provider_service_name'] }}</p>
                     <p><strong>Tipo:</strong> {{ $rate['rate_type'] ?? 'No especificado' }}</p>
-                    <p><strong>Estado:</strong> {{ $rate['status'] }}</p>
-                    <p><strong>Costo:</strong> {{ $rate['cost'] ? '$' . $rate['cost'] : 'No disponible' }}</p>
                     <p><strong>Total:</strong> {{ $rate['total'] ? '$' . $rate['total'] : 'No disponible' }}</p>
                     <p><strong>Días de entrega:</strong> {{ $rate['days'] ?? 'No especificado' }}</p>
                     
-                    @if (!$rate['success'])
+                    @if (!$rate['success'] && !empty($rate['error_messages']) && count($rate['error_messages']) > 0)
                         <p class="text-red-500 font-semibold mt-2">Error: 
-                            @foreach ($rate['error_messages'] ?? [] as $error)
+                            @foreach ($rate['error_messages'] as $error)
                                 {{ $error['error_message'] }} 
                             @endforeach
                         </p>
+                    @endif
+                    @if ($rate['total'])
+                        <form action="{{ route('zensara.rates.process') }}" method="POST" class="mt-4">
+                            @csrf
+
+                            <input type="hidden" id="products" name="products" value="{{ $requestData['products'] }}" class="w-full p-2 border rounded" readonly>
+                            <input type="hidden" id="total" name="total" value="{{ $requestData['total'] }}" class="w-full p-2 border rounded" readonly>
+                            <input type="hidden" id="name" name="name" value="{{ $requestData['name'] }}" class="w-full p-2 border rounded" readonly>
+                            <input type="hidden" id="company" name="company" value="{{ $requestData['company'] }}" class="w-full p-2 border rounded" readonly>
+                            <input type="hidden" id="email" name="email" value="{{ $requestData['email'] }}" class="w-full p-2 border rounded" readonly>
+                            <input type="hidden" id="phone" name="phone" value="{{ $requestData['phone'] }}" class="w-full p-2 border rounded" readonly>
+                            <input type="hidden" id="street" name="street" value="{{ $requestData['street'] }}" class="w-full p-2 border rounded" readonly>
+                            <input type="hidden" id="number" name="number" value="{{ $requestData['number'] }}" class="w-full p-2 border rounded" readonly>
+                            <input type="hidden" id="district" name="district" value="{{ $requestData['district'] }}" class="w-full p-2 border rounded" readonly>
+                            <input type="hidden" id="city" name="city" value="{{ $requestData['city'] }}" class="w-full p-2 border rounded" readonly>
+                            <input type="hidden" id="state" name="state" value="{{ $requestData['state'] }}" class="w-full p-2 border rounded" readonly>
+                            <input type="hidden" id="postalCode" name="postalCode" value="{{ $requestData['postalCode'] }}" class="w-full p-2 border rounded" readonly>
+                            <input type="hidden" id="reference" name="reference" value="{{ $requestData['reference'] }}" class="w-full p-2 border rounded"readonly>
+                            <input type="hidden" name="rate_id" value="{{ $rate['id'] }}" readonly>
+                            <input type="hidden" name="quotation_id" value="{{ $quotation['id'] }}" readonly>
+                            <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
+                                Seleccionar Tarifa
+                            </button>
+                        </form>
                     @endif
                 </div>
             @endforeach

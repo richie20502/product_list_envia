@@ -38,8 +38,9 @@ Route::get('/zensara', [ProductsZenzaraController::class, 'index'])->name('zensa
 Route::post('/zensara/add/{id}', [ProductsZenzaraController::class, 'add'])->name('zensara.add');
 Route::get('/zensara/cart', [ProductsZenzaraController::class, 'cart'])->name('zensara.cart');
 Route::post('/zensara/quotation', [ZenzaraCartController::class, 'quotations'])->name('zensara.quotation.create');
-Route::post('/zensara/orders', [ZenzaraCartController::class, 'create'])->name('zensara.quotation.create');
+Route::post('/zensara/orders', [ZenzaraCartController::class, 'create'])->name('zensara.order.create');
 Route::delete('/zensara/cart/remove/{id}', [ProductsZenzaraController::class, 'remove'])->name('zensara.cart.remove');
+Route::post('/rates/process', [ZenzaraCartController::class, 'processRate'])->name('zensara.rates.process');
 
 #zensara.shipping.create
 

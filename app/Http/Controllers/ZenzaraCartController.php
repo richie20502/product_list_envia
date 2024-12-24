@@ -155,9 +155,66 @@ class ZenzaraCartController extends Controller
     }
 
 
-    public function quotations()
+    public function quotations(Request $request)
     {
-        
+        //dd($request->all());
+        $productsData = json_decode($request->input('products'), true);
+        $productDetails = [];
+        foreach ($productsData as $id => $product) {
+            $productModel = ProductsZenzara::find($id);
+
+            if ($productModel) {
+                    $productDetails[] = [
+                        'id' => $productModel->id,
+                        'name' => $productModel->name,
+                        'description' => $productModel->description,
+                        'price' => $productModel->price,
+                        'quantity' => $product['quantity'], 
+                        'weight' => $productModel->weight,
+                        'weight_unit' => $productModel->weight_unit,
+                        'subtotal' => $productModel->price * $product['quantity'],
+                    ];
+            } else {
+                return response()->json([
+                    'error' => "Producto con ID {$id} no encontrado."
+                ], 404);
+            }
+        }
+        $total = array_reduce($productDetails, function ($carry, $product) {
+            return $carry + $product['subtotal'];
+        }, 0);
+
+        $totalWeightKg = array_reduce($productDetails, function ($carry, $item) {
+            $weightInKg = ($item['weight_unit'] === 'G') ? $item['weight'] / 1000 : $item['weight'];
+            return $carry + ($weightInKg * $item['quantity']);
+        }, 0);
+
+        if ($totalWeightKg < 1) {
+            $totalWeight = $totalWeightKg * 1000;
+            $unit = "g";
+        } else {
+            $totalWeight = $totalWeightKg;
+            $unit = "kg";
+        }
+
+        $totalQuantity = array_reduce($productDetails, function ($carry, $item) {
+            return $carry + $item['quantity'];
+        }, 0);
+
+        $transformedData = array_map(function ($item) {
+            return [
+                "name" => $item['name'],
+                "hs_code" => "0000.00", // Código genérico; cámbialo según sea necesario
+                "sku" => "SKU-" . str_pad($item['id'], 3, "0", STR_PAD_LEFT), // Generar SKU dinámico
+                "price" => $item['price'],
+                "quantity" => $item['quantity'],
+                "weight" => $item['weight'] 
+                #"height" => 10, 
+                #"length" => 10,
+                #"width" => 10,
+            ];
+        }, $productDetails);
+
         $quotationData = [
             'quotation' => [
                 'address_from' => [
@@ -176,17 +233,17 @@ class ZenzaraCartController extends Controller
                 ],
                 'address_to' => [
                     'country_code' => 'mx',
-                    'postal_code' => 50000,
-                    'area_level1' => 'Nuevo León',
-                    'area_level2' => 'Monterrey',
+                    'postal_code' => $request->postalCode,
+                    'area_level1' => $request->city,
+                    'area_level2' => $request->state,
                     'area_level3' => 'Monterrey Centro',
-                    'street1' => 'Padre Raymundo Jardón 925',
-                    'apartment_number' => '3a',
-                    'reference' => 'Casa azul',
-                    'name' => 'Bart Simpson',
-                    'company' => 'Skydropx',
-                    'phone' => 8223651143,
-                    'email' => 'bart.simpson@gmail.com',
+                    'street1' => $request->street,
+                    #'apartment_number' => '3a',
+                    'reference' => $request->reference,
+                    'name' => $request->name,
+                    'company' => $request->company,
+                    'phone' => $request->phone,
+                    'email' => $request->email,
                 ],
                 'parcel' => [
                     'length' => 10,
@@ -197,7 +254,6 @@ class ZenzaraCartController extends Controller
                 'requested_carriers' => [
                     'fedex',
                     'dhl',
-                    'estafeta',
                     'paquetexpress',
                     'sendex',
                     'quiken',
@@ -221,9 +277,151 @@ class ZenzaraCartController extends Controller
             Log::info($responseDataQuotation);
         
     
-            return view('zensara.quotation.index', ['quotation' => $responseDataQuotation]);
+            return view('zensara.quotation.index', [
+                'quotation' => $responseDataQuotation,
+                'requestData' => $request->all() // Enviar request->all() a la vista
+            ]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+
+    public function processRate (Request $request)
+    {
+        //dd($request->all());
+        $productsData = json_decode($request->input('products'), true);
+        $productDetails = [];
+        foreach ($productsData as $id => $product) {
+            $productModel = ProductsZenzara::find($id);
+
+            if ($productModel) {
+                    $productDetails[] = [
+                        'id' => $productModel->id,
+                        'name' => $productModel->name,
+                        'description' => $productModel->description,
+                        'price' => $productModel->price,
+                        'quantity' => $product['quantity'], 
+                        'weight' => $productModel->weight,
+                        'weight_unit' => $productModel->weight_unit,
+                        'subtotal' => $productModel->price * $product['quantity'],
+                        "hs_code"=> "1234567890",
+                        'product_type_code'=> "P",
+                        'product_type_name'=> "Producto",
+                        'country_code' => 'MX'
+                    ];
+            } else {
+                return response()->json([
+                    'error' => "Producto con ID {$id} no encontrado."
+                ], 404);
+            }
+        }
+        $total = array_reduce($productDetails, function ($carry, $product) {
+            return $carry + $product['subtotal'];
+        }, 0);
+
+        $totalWeightKg = array_reduce($productDetails, function ($carry, $item) {
+            $weightInKg = ($item['weight_unit'] === 'G') ? $item['weight'] / 1000 : $item['weight'];
+            return $carry + ($weightInKg * $item['quantity']);
+        }, 0);
+
+        if ($totalWeightKg < 1) {
+            $totalWeight = $totalWeightKg * 1000;
+            $unit = "g";
+        } else {
+            $totalWeight = $totalWeightKg;
+            $unit = "kg";
+        }
+
+        $totalQuantity = array_reduce($productDetails, function ($carry, $item) {
+            return $carry + $item['quantity'];
+        }, 0);
+
+        $transformedData = array_map(function ($item) {
+            return [
+                "name" => $item['name'],
+                "hs_code" => "0000.00", // Código genérico; cámbialo según sea necesario
+                "sku" => "SKU-" . str_pad($item['id'], 3, "0", STR_PAD_LEFT), // Generar SKU dinámico
+                "price" => $item['price'],
+                "quantity" => $item['quantity'],
+                "weight" => $item['weight'] 
+                #"height" => 10, 
+                #"length" => 10,
+                #"width" => 10,
+            ];
+        }, $productDetails);
+    
+        $total = $request->input('total');
+        $name = $request->input('name');
+        $company = $request->input('company');
+        $email = $request->input('email');
+        $phone = $request->input('phone');
+        $street = $request->input('street');
+        $number = $request->input('number');
+        $district = $request->input('district');
+        $city = $request->input('city');
+        $state = $request->input('state');
+        $postalCode = $request->input('postalCode');
+        $reference = $request->input('reference');
+
+
+        $rateId = $request->input('rate_id');
+        $quotationId = $request->input('quotation_id');
+
+        
+        $data_shipment = [
+            'shipment' => [
+                'quotation_id' => $quotationId,
+                'rate_id' => $rateId,
+                'protected' => true,
+                'declared_value' => 1400,
+                'printing_format' => "thermal",
+                "address_from" => [
+                    "country_code" => "mx",
+                    "postal_code"=> "52147",
+                    "area_level1"=> "Nuevo León",
+                    "area_level2"=> "Monterrey",
+                    "area_level3"=>"Monterrey Centro",
+                    "street1"=> "Calle Example",
+                    "name"=> "Homero Simpson",
+                    "company"=> "Acme INC",
+                    "phone"=> "4434434445",
+                    "email"=> "homero@simpson.com",
+                    "reference"=> "Casa de Homero"
+                ],
+                "address_to" => [
+                    "country_code"=> "mx",
+                    "postal_code"=> $postalCode,
+                    "area_level1"=> "Michoacán",
+                    "area_level2"=> "Morelia",
+                    "area_level3"=> "Ampliación Nicolás Romero",
+                    "street1"=> $street,
+                    "name"=> $name,
+                    "company"=> $company,
+                    "phone"=> $phone,
+                    "email"=> "bart@simpson.com",
+                    "reference"=> $reference
+                ],
+                "consignment_note"=> "53102400",
+                "package_type"=> "4G",
+                "products" => $productDetails
+            ],
+        ];
+        
+
+
+        $response = $this->authService->createShipment($data_shipment);
+        
+
+
+
+
+
+        // Lógica para procesar la tarifa seleccionada
+        return response()->json([
+            'message' => 'Tarifa seleccionada correctamente.',
+            'rate_id' => $rateId,
+            'quotation_id' => $quotationId,
+        ]);
     }
 }

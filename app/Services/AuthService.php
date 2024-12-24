@@ -31,7 +31,7 @@ class AuthService
 
         if (!$token) {
             // Si no hay token en cache, solicita uno nuevo
-            $response = $this->client->post($this->authUrl.'oauth/token', [
+            $response = $this->client->post($this->authUrl . 'oauth/token', [
                 'headers' => [
                     'Content-Type' => 'application/json',
                 ],
@@ -86,7 +86,7 @@ class AuthService
     {
         $token = $this->getToken();
         try {
-            $response = $this->client->post($this->authUrl  . 'quotations', [
+            $response = $this->client->post($this->authUrl . 'quotations', [
                 'headers' => [
                     'Content-Type' => 'application/json',
                     'Authorization' => 'Bearer ' . $token,
@@ -100,7 +100,8 @@ class AuthService
         }
     }
 
-    public function getQuotationById(){
+    public function getQuotationById()
+    {
         $quotationId = session('quotation_id'); // Obtener el ID de la sesión
         $token = $this->getToken();
         sleep(5);
@@ -109,14 +110,14 @@ class AuthService
         }
         //$quotationId='77adf4d6-814f-43c8-b6c6-892cbedbd2b9';
         Log::info(" ---------- INI URL ----------");
-        Log::info($this->authUrl. 'quotations/' . $quotationId);
+        Log::info($this->authUrl . 'quotations/' . $quotationId);
         Log::info(" ---------- FIN URL ----------");
         try {
             $start = microtime(true);
-            $response = $this->client->get($this->authUrl. 'quotations/'. $quotationId, [
+            $response = $this->client->get($this->authUrl . 'quotations/' . $quotationId, [
                 'headers' => [
                     'Content-Type' => 'application/json',
-                    
+
                     'Authorization' => 'Bearer ' . $token,
                 ],
                 'timeout' => 10,
@@ -127,6 +128,23 @@ class AuthService
             return json_decode($response->getBody(), true);
         } catch (\Exception $e) {
             throw new \Exception('Error al buscar la cotización: ' . $e->getMessage());
+        }
+    }
+
+    public function createShipment(array $shipmentData)
+    {
+        try {
+            $response = $this->client->post($this->authUrl . 'shipments/', [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $this->getToken(), // Obtener el token dinámicamente
+                ],
+                'json' => $shipmentData, // Datos del envío
+            ]);
+
+            return json_decode($response->getBody(), true); // Decodificar la respuesta
+        } catch (\Exception $e) {
+            throw new \Exception('Error al crear el envío: ' . $e->getMessage());
         }
     }
 }

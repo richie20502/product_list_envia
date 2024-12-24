@@ -69,7 +69,7 @@
                         <input type="hidden" name="total" id="" value="{{ $total }}" readonly="true">
                         <input type="text" name="name" value="Ricardo Lugo " placeholder="Nombre" class="p-2 border rounded"
                             required>
-                        <input type="text" name="company" value="" placeholder="Empresa (opcional)"
+                        <input type="text" name="company" value="Company prueba" placeholder="Empresa (opcional)"
                             class="p-2 border rounded">
                         <input type="email" name="email" value="richie.lugo.recillas.1990@gmail.com" placeholder="Correo Electrónico"
                             class="p-2 border rounded">
@@ -87,7 +87,7 @@
                             required>
                         <input type="text" name="postalCode" value="50000" placeholder="Código Postal"
                             class="p-2 border rounded" required>
-                        <input type="text" name="reference" value="" placeholder="Referencia (opcional)"
+                        <input type="text" name="reference" value="Referencia" placeholder="Referencia (opcional)"
                             class="p-2 border rounded">
                     </div>
                     <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600">Generar
